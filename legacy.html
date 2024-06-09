@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Legacy disco.rf.gd</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    form {
+      text-align: center;
+    }
+    input, button {
+      display: block;
+      margin: 10px auto;
+    }
+  </style>
+</head>
+<body>
+  <form id="url-shortener-form">
+    <label for="url-input">URL to be shortened:</label>
+    <input type="text" id="url-input" name="url-input" required>
+    <br>
+    <label for="alias-input">Alias:</label>
+    <input type="text" id="alias-input" name="alias-input" required>
+    <br>
+    <label for="email-input">Email:</label>
+    <input type="email" id="email-input" name="email-input" required>
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('url-shortener-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get the input values
+      var url = document.getElementById('url-input').value;
+      var alias = document.getElementById('alias-input').value;
+      var email = document.getElementById('email-input').value;
+
+      // Create the JSON data to send to the Discord webhook
+      var data = {
+        "content": `URL: ${url}\nAlias: ${alias}\nEmail: ${email}\nSent from Legacy version`
+      };
+
+      // Send the data to the Discord webhook
+      fetch('https://discord.com/api/webhooks/1249461592593010810/zj8384wIVNfSpKogzy-CPNtP9Tn5JqFVHQamFjoaDuUM_OEDH7_5f2NT3ILVwWK4CBFo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function(response) {
+        if (response.ok) {
+          console.log('URL shortener request sent successfully!');
+        } else {
+          console.warn('Error sending URL shortener request. Please try again later.');
+        }
+      })
+      .catch(function(error) {
+        console.warn('Error sending URL shortener request. Please try again later.');
+      });
+    });
+  </script>
+</body>
+</html>
