@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>URL Shortener</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type=text], input[type=email] {
+      padding: 12px 20px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .legacy-version {
+      color: grey;
+      text-align: center;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Discord URL Shortener - disco.rf.gd</h1>
+    <form id="url-shortener-form">
+      <label for="url-input">URL to be shortened:</label>
+      <input type="text" id="url-input" name="url-input" required>
+      <label for="alias-input">Alias:</label>
+      <input type="text" id="alias-input" name="alias-input" required>
+      <label for="email-input">Email:</label>
+      <input type="email" id="email-input" name="email-input" required>
+      <button type="submit">Submit</button>
+      <a href="https://sites.google.com/view/disco-rf-gd/home/legacy" class="legacy-version" >Legacy version</a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('url-shortener-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      // Get the input values
+      var url = document.getElementById('url-input').value;
+      var alias = document.getElementById('alias-input').value;
+      var email = document.getElementById('email-input').value;
+
+      // Create the JSON data to send to the Discord webhook
+      var data = {
+        "content": `URL: ${url}\nAlias: ${alias}\nEmail: ${email}`
+      };
+
+      // Send the data to the Discord webhook
+      fetch('https://discord.com/api/webhooks/1249461592593010810/zj8384wIVNfSpKogzy-CPNtP9Tn5JqFVHQamFjoaDuUM_OEDH7_5f2NT3ILVwWK4CBFo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(function(response) {
+        if (response.ok) {
+          alert('URL shortener request sent successfully!');
+        } else {
+          alert('Error sending URL shortener request. Please try again later.');
+        }
+      })
+      .catch(function(error) {
+        alert('Error sending URL shortener request. Please try again later.');
+      });
+    });
+  </script>
+</body>
+</html>
